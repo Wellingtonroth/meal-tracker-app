@@ -1,0 +1,61 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove margens padrões */
+html, body, h1, h2, h3, h4, h5, h6, p,
+figure, blockquote, dl, dd {
+  margin: 0;
+}
+
+/* Altura total da viewport */
+html, body {
+  height: 100%;
+}
+
+/* Corpo */
+body {
+  line-height: 1.5;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Mídia responsiva por padrão */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Inputs e formulários herdam fonte */
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Links limpos */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Botões sem estilos padrão */
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Listas sem bullets por padrão */
+ul, ol {
+  list-style: none;
+  padding-left: 0;
+}

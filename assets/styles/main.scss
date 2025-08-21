@@ -1,0 +1,16 @@
+@use './variables' as *;
+@use './reset';
+@use './mixins' as *;
+
+:root {
+  --color-primary: #{$primary};
+}
+
+.btn {
+  padding: .625rem 1rem;
+  border-radius: .5rem;
+  background: $primary-600;
+  color: #fff;
+  transition: background .2s;
+  &:hover { background: $primary-700; }
+}
