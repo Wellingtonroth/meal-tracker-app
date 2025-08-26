@@ -3,7 +3,6 @@
 [![CI](https://github.com/Wellingtonroth/meal-tracker-app/actions/workflows/ci.yml/badge.svg)](https://github.com/Wellingtonroth/meal-tracker-app/actions/workflows/ci.yml)
 <!-- [![Vercel](https://therealsujitk-vercel-badge.vercel.app/?app=meal-tracker-app)](https://vercel.com) -->
 
-
 # Nuxt Minimal Starter
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
