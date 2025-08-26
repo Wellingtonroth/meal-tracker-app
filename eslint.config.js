@@ -5,6 +5,12 @@ export default antfu({
   stylistic: true,
   vue: true,
   typescript: true,
+  ignores: [
+    '**/node_modules',
+    '.nuxt',
+    'dist',
+    '.github',
+  ],
   rules: {
     'style/no-multi-spaces': ['error', { ignoreEOLComments: true }],
     'vue/block-order': ['error', { order: ['template', 'script', 'style'] }],
