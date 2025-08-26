@@ -4,7 +4,7 @@ type Theme = 'light' | 'dark'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
-    theme: 'light' as Theme
+    theme: 'light' as Theme,
   }),
   actions: {
     setTheme(t: Theme) {
@@ -18,6 +18,6 @@ export const useAppStore = defineStore('app', {
     initTheme() {
       const saved = (localStorage.getItem('theme') as Theme) || 'light'
       this.setTheme(saved)
-    }
-  }
+    },
+  },
 })

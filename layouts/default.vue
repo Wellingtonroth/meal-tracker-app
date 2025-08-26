@@ -33,19 +33,21 @@ const app = useAppStore()
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: .875rem 0;
+  padding: 0.875rem 0;
 }
 
-.logo { font-weight: 700; }
+.logo {
+  font-weight: 700;
+}
 
 .nav {
   display: flex;
-  gap: .75rem;
+  gap: 0.75rem;
 
   a {
-    padding: .5rem .75rem;
-    border-radius: .5rem;
-    transition: background .2s;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    transition: background 0.2s;
 
     &.router-link-exact-active {
       background: var(--primary);
@@ -57,7 +59,7 @@ const app = useAppStore()
     }
 
     &:hover {
-      background: rgba(0, 0, 0, .06);
+      background: rgba(0, 0, 0, 0.06);
     }
   }
 }
@@ -65,10 +67,12 @@ const app = useAppStore()
 .theme-btn {
   border: 1px solid var(--border);
   background: var(--surface);
-  padding: .375rem .75rem;
-  border-radius: .5rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
   cursor: pointer;
 }
 
-.main { padding: 1rem 0; }
+.main {
+  padding: 1rem 0;
+}
 </style>

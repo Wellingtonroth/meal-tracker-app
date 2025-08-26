@@ -7,10 +7,12 @@
 }
 
 .btn {
-  padding: .625rem 1rem;
-  border-radius: .5rem;
+  padding: 0.625rem 1rem;
+  border-radius: 0.5rem;
   background: $primary-600;
   color: #fff;
-  transition: background .2s;
-  &:hover { background: $primary-700; }
+  transition: background 0.2s;
+  &:hover {
+    background: $primary-700;
+  }
 }
