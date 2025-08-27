@@ -14,6 +14,7 @@ export default antfu({
     '.github',
     '*.yml',
     '*.yaml',
+    'public/**',
   ],
   rules: {
     'vue/block-order': 'off',

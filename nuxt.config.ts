@@ -1,11 +1,31 @@
-// nuxt.config.ts
+/// <reference types="@vite-pwa/nuxt" />
+
 export default defineNuxtConfig({
-  modules: ['@pinia/nuxt'],
+  modules: ['@pinia/nuxt', '@vite-pwa/nuxt'],
   imports: {
     dirs: ['stores'],
   },
   devtools: { enabled: true },
   css: ['@/assets/styles/main.scss'],
+  pwa: {
+    registerType: 'autoUpdate',
+    workbox: { navigateFallback: '/' },
+    manifest: {
+      name: 'Meal Tracker',
+      short_name: 'Meals',
+      start_url: '/?source=pwa',
+      scope: '/',
+      display: 'standalone',
+      background_color: '#ffffff',
+      theme_color: '#0f172a',
+      icons: [
+        { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+        { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+        { src: '/icons/maskable-192.png', sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
+        { src: '/icons/maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
+      ],
+    },
+  },
   app: {
     head: {
       title: 'Meal Tracker',
@@ -16,10 +36,7 @@ export default defineNuxtConfig({
         { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
         { name: 'apple-mobile-web-app-title', content: 'Meal Tracker' },
       ],
-      link: [
-        { rel: 'manifest', href: '/manifest.webmanifest' },
-        { rel: 'apple-touch-icon', href: '/icons/icon-192.png' },
-      ],
+      link: [{ rel: 'apple-touch-icon', href: '/icons/icon-192.png' }],
     },
   },
 })
