@@ -10,5 +10,15 @@ export default antfu({
     '.output',
     'dist',
     'coverage',
+    '.husky',
+    '.github',
+    '*.yml',
+    '*.yaml',
   ],
+  rules: {
+    'vue/block-order': 'off',
+    'vue/singleline-html-element-content-newline': 'off',
+    'style/no-trailing-spaces': 'off',
+    // 'style/comma-dangle': 'off',
+  },
 })
