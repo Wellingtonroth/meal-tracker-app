@@ -1,48 +1,34 @@
-// Cores principais (fixas, mas podem ser usadas em cálculos SCSS)
-$primary: #16a34a;
-$primary-600: #16a34a;
-$primary-700: #15803d;
-
-$space-1: 0.25rem;
-$space-2: 0.5rem;
-$space-3: 0.75rem;
-$space-4: 1rem;
-
-$font-sans:
-  ui-sans-serif,
-  system-ui,
-  -apple-system,
-  Segoe UI,
-  Roboto,
-  Arial,
-  'Noto Sans',
-  'Apple Color Emoji',
-  'Segoe UI Emoji';
-
-// -------------------------
-// 🌞 Tema Claro (default)
-// -------------------------
 :root {
-  --bg: #ffffff;
-  --text: #111827;
-  --muted: #6b7280;
-  --card: #ffffff;
-  --surface: #f7f7f8;
-  --border: #e5e7eb;
-  --primary: #16a34a;
-  --primary-contrast: #ffffff;
+  --color-background: #f6f8fb;
+  --color-surface: #ffffff;
+  --color-primary: #1e88e5;
+  --color-secondary: #fb8c00;
+  --color-success: #43a047;
+  --color-warning: #fbc02d;
+  --color-error: #e53935;
+  --color-text: #1a1a1a;
 }
 
-// -------------------------
-// 🌙 Tema Escuro
-// -------------------------
 :root[data-theme='dark'] {
-  --bg: #0b0b0c;
-  --text: #e5e7eb;
-  --muted: #9ca3af;
-  --card: #151517;
-  --surface: #0f0f11;
-  --border: #27272a;
-  --primary: #22c55e;
-  --primary-contrast: #0b0b0c;
+  --color-background: #121212;
+  --color-surface: #1e1e1e;
+  --color-primary: #64b5f6;
+  --color-secondary: #ffb74d;
+  --color-success: #81c784;
+  --color-warning: #fff176;
+  --color-error: #ef9a9a;
+  --color-text: #f2f2f2;
+}
+
+.icon--sm {
+  width: 16px;
+  height: 16px;
+}
+.icon--md {
+  width: 20px;
+  height: 20px;
+}
+.icon--lg {
+  width: 24px;
+  height: 24px;
 }

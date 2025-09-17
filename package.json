@@ -8,11 +8,13 @@
     "format": "prettier --write .",
     "generate": "nuxt generate",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "prepare": "husky"
   },
   "dependencies": {
+    "@heroicons/vue": "^2.2.0",
     "@pinia/nuxt": "^0.11.2",
     "nuxt": "^3.18.1",
     "pinia": "^3.0.3",
@@ -30,5 +32,9 @@
     "prettier": "^3.6.2",
     "sass": "^1.90.0",
     "typescript": "^5.9.2"
+  },
+  "lint-staged": {
+    "**/*.{vue,ts,tsx,js}": "eslint --fix",
+    "**/*.{scss,css,md,json}": "prettier --write"
   }
 }

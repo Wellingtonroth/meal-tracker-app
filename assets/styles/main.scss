@@ -1,18 +1,3 @@
 @use './variables' as *;
 @use './reset';
 @use './mixins' as *;
-
-:root {
-  --color-primary: #{$primary};
-}
-
-.btn {
-  padding: 0.625rem 1rem;
-  border-radius: 0.5rem;
-  background: $primary-600;
-  color: #fff;
-  transition: background 0.2s;
-  &:hover {
-    background: $primary-700;
-  }
-}

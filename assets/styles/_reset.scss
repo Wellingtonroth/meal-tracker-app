@@ -6,7 +6,6 @@
   padding: 0;
 }
 
-/* Remove margens padrões */
 html,
 body,
 h1,
@@ -23,13 +22,11 @@ dd {
   margin: 0;
 }
 
-/* Altura total da viewport */
 html,
 body {
   height: 100%;
 }
 
-/* Corpo */
 body {
   line-height: 1.5;
   font-family:
@@ -47,7 +44,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Mídia responsiva por padrão */
 img,
 picture,
 video,
@@ -58,7 +54,6 @@ svg {
   height: auto;
 }
 
-/* Inputs e formulários herdam fonte */
 input,
 button,
 textarea,
@@ -67,20 +62,17 @@ select {
   color: inherit;
 }
 
-/* Links limpos */
 a {
   text-decoration: none;
   color: inherit;
 }
 
-/* Botões sem estilos padrão */
 button {
   background: none;
   border: none;
   cursor: pointer;
 }
 
-/* Listas sem bullets por padrão */
 ul,
 ol {
   list-style: none;

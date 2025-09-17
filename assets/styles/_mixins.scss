@@ -1,4 +1,3 @@
-// Breakpoints centralizados
 $bp: (
   sm: 480px,
   md: 768px,
@@ -6,14 +5,12 @@ $bp: (
   xl: 1280px,
 );
 
-// Mixin para min-width
 @mixin min($name) {
   @media (min-width: map-get($bp, $name)) {
     @content;
   }
 }
 
-// Mixin para max-width
 @mixin max($name) {
   @media (max-width: map-get($bp, $name)) {
     @content;
