@@ -1,6 +1,5 @@
+import type { Theme } from '@/types/theme'
 import { defineStore } from 'pinia'
-
-type Theme = 'light' | 'dark'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
@@ -9,15 +8,6 @@ export const useAppStore = defineStore('app', {
   actions: {
     setTheme(t: Theme) {
       this.theme = t
-      document.documentElement.setAttribute('data-theme', t)
-      localStorage.setItem('theme', t)
-    },
-    toggleTheme() {
-      this.setTheme(this.theme === 'dark' ? 'light' : 'dark')
-    },
-    initTheme() {
-      const saved = (localStorage.getItem('theme') as Theme) || 'light'
-      this.setTheme(saved)
     },
   },
 })
