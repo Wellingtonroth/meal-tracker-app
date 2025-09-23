@@ -4,7 +4,7 @@
 
     <nav class="menu">
       <NuxtLink
-        v-for="item in items"
+        v-for="item in navItems"
         :key="item.to"
         :to="item.to"
         class="row"
@@ -20,28 +20,9 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ChartBarIcon as ChartOutline,
-  Cog6ToothIcon as CogOutline,
-  DocumentTextIcon as DocOutline,
-  HomeIcon as HomeOutline,
-} from '@heroicons/vue/24/outline'
-import {
-  ChartBarIcon as ChartSolid,
-  Cog6ToothIcon as CogSolid,
-  DocumentTextIcon as DocSolid,
-  HomeIcon as HomeSolid,
-} from '@heroicons/vue/24/solid'
-import { useActiveLink } from '@/composables/useActiveLink'
+import { navItems } from '@/constants/navigation'
 
 const { isActive } = useActiveLink()
-
-const items = [
-  { to: '/', label: 'Dashboard', icon: HomeOutline, iconSolid: HomeSolid },
-  { to: '/plans', label: 'Plans', icon: DocOutline, iconSolid: DocSolid },
-  { to: '/reports', label: 'Reports', icon: ChartOutline, iconSolid: ChartSolid },
-  { to: '/settings', label: 'Settings', icon: CogOutline, iconSolid: CogSolid },
-]
 </script>
 
 <style scoped lang="scss">
@@ -51,8 +32,8 @@ const items = [
   height: 100dvh;
   width: 250px;
   padding: 20px 14px;
-  border-right: 1px solid rgba(0,0,0,.06);
-  background: #fff;
+  border-right: 1px solid var(--color-divider);
+  background: var(--color-surface);
   display: none;
 
   @media (min-width: 1024px) {
@@ -64,7 +45,8 @@ const items = [
 
 .brand {
   font-size: 18px;
-  letter-spacing: .2px;
+  letter-spacing: 0.2px;
+  color: var(--color-text);
 }
 
 .menu {
@@ -80,19 +62,29 @@ const items = [
   padding: 10px 12px;
   text-decoration: none;
   border-radius: 12px;
-  transition: background .18s ease;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease;
 
-  .icon { 
-    width: 22px; 
+  color: var(--color-icon-muted);
+
+  .icon {
+    width: 22px;
     height: 22px;
+    color: currentColor;
+  }
+  .label {
+    color: currentColor;
   }
 
-  &:hover { 
-    background: rgba(0,0,0,.04); 
+  &:hover {
+    background: var(--color-ghost);
+    color: var(--color-primary);
   }
 
   &.active {
-    background: rgba(0,0,0,.04); 
+    background: var(--color-ghost-strong);
+    color: var(--color-primary);
   }
 }
 </style>
