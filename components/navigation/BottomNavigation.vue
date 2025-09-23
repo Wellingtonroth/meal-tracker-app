@@ -1,7 +1,7 @@
 <template>
   <nav class="bottom-nav" role="navigation" aria-label="Primary">
     <NuxtLink
-      v-for="item in items"
+      v-for="item in navItems"
       :key="item.to"
       :to="item.to"
       class="nav-item"
@@ -18,28 +18,9 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ChartBarIcon as ChartOutline,
-  Cog6ToothIcon as CogOutline,
-  DocumentTextIcon as DocOutline,
-  HomeIcon as HomeOutline,
-} from '@heroicons/vue/24/outline'
-import {
-  ChartBarIcon as ChartSolid,
-  Cog6ToothIcon as CogSolid,
-  DocumentTextIcon as DocSolid,
-  HomeIcon as HomeSolid,
-} from '@heroicons/vue/24/solid'
-import { useActiveLink } from '@/composables/useActiveLink'
+import { navItems } from '@/constants/navigation'
 
 const { isActive } = useActiveLink()
-
-const items = [
-  { to: '/', label: 'Dashboard', icon: HomeOutline, iconSolid: HomeSolid },
-  { to: '/plans', label: 'Plans', icon: DocOutline, iconSolid: DocSolid },
-  { to: '/reports', label: 'Reports', icon: ChartOutline, iconSolid: ChartSolid },
-  { to: '/settings', label: 'Settings', icon: CogOutline, iconSolid: CogSolid },
-]
 </script>
 
 <style scoped lang="scss">
@@ -53,11 +34,11 @@ const items = [
   grid-template-columns: repeat(4, 1fr);
   align-items: center;
   gap: 4px;
-  padding: 8px 10px;
-  background: rgba(255, 255, 255, 0.9);
+  padding: 10px;
+  background: var(--color-surface-elevated);
   backdrop-filter: blur(6px);
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.06);
+  border-top: 1px solid var(--color-divider);
+  box-shadow: var(--shadow-soft);
 
   @media (min-width: 1024px) {
     display: none;
@@ -69,20 +50,57 @@ const items = [
   place-items: center;
   gap: 2px;
   text-decoration: none;
-  padding: 6px 4px;
+  padding: 8px 6px;
   border-radius: 12px;
-  transition: background 0.18s ease;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease;
+
+  /* define cor-base */
+  color: var(--color-icon-muted);
 
   .icon {
     width: 22px;
     height: 22px;
-    color: var(--color-text);
+    color: currentColor;
   }
-
   .label {
     font-size: 12px;
     line-height: 1;
-    color: var(--color-text);
+    color: currentColor;
+  }
+
+  &:hover {
+    background: var(--color-ghost);
+    color: var(--color-primary);
+  }
+
+  &.router-link-active,
+  &[aria-current='page'] {
+    background: var(--color-ghost-strong);
+    color: var(--color-primary);
+  }
+}
+
+.nav-item.router-link-active,
+.nav-item[aria-current='page'] {
+  background: var(--color-ghost-strong);
+
+  .icon {
+    color: var(--color-primary);
+  }
+  .label {
+    color: var(--color-primary);
+  }
+}
+
+.nav-item.router-link-active,
+.nav-item[aria-current='page'] {
+  background: var(--color-ghost-strong);
+  color: var(--color-primary);
+
+  .label {
+    color: var(--color-primary);
   }
 }
 
