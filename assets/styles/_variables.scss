@@ -1,6 +1,6 @@
 :root {
   --color-background: #f6f8fb;
-  --color-surface: #ffffff;
+  --color-surface: #fafafa;
   --color-surface-elevated: #ffffff;
   --color-primary: #1e88e5;
   --color-on-primary: #ffffff;
@@ -23,8 +23,8 @@
 }
 
 :root[data-theme='dark'] {
-  --color-background: #0e0f12;
-  --color-surface: #13151a;
+  --color-background: #121212;
+  --color-surface: #1b1e25;
   --color-surface-elevated: #171a20;
   --color-primary: #64b5f6;
   --color-on-primary: #0a0a0a;

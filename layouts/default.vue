@@ -4,7 +4,7 @@
 
     <main class="content">
       <button class="theme-toggle" @click="toggleTheme">
-        {{ theme === 'dark' ? '🌙 Dark' : '☀️ Light' }}
+        {{ theme === 'dark' ? '🌙' : '☀️' }}
       </button>
       <slot />
     </main>
@@ -25,7 +25,7 @@ const { theme, toggleTheme } = useTheme()
   display: grid;
   grid-template-columns: 1fr;
   min-height: 100dvh;
-  background: var(--color-background);
+  background: var(--color-surface);
 
   @media (min-width: 1024px) {
     grid-template-columns: 250px 1fr;
@@ -43,7 +43,7 @@ const { theme, toggleTheme } = useTheme()
 
 .theme-toggle {
   margin-bottom: 1rem;
-  padding: 6px 12px;
+  padding: 4px 6px;
   border: 1px solid var(--color-divider);
   border-radius: 10px;
   background: var(--color-surface);

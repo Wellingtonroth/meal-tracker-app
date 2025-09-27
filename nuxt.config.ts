@@ -2,6 +2,7 @@
 
 export default defineNuxtConfig({
   modules: ['@pinia/nuxt', '@vite-pwa/nuxt'],
+  compatibilityDate: '2025-09-23',
   imports: {
     dirs: ['stores'],
   },
@@ -21,8 +22,18 @@ export default defineNuxtConfig({
       icons: [
         { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
         { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
-        { src: '/icons/maskable-192.png', sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
-        { src: '/icons/maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
+        {
+          src: '/icons/maskable-192.png',
+          sizes: '192x192',
+          type: 'image/png',
+          purpose: 'any maskable',
+        },
+        {
+          src: '/icons/maskable-512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'any maskable',
+        },
       ],
     },
   },
