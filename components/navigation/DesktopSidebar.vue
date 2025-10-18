@@ -45,7 +45,6 @@ const { isActive } = useActiveLink()
 
 .brand {
   font-size: 18px;
-  letter-spacing: 0.2px;
   color: var(--color-text);
 }
 
@@ -61,7 +60,7 @@ const { isActive } = useActiveLink()
   gap: 10px;
   padding: 10px 12px;
   text-decoration: none;
-  border-radius: 12px;
+  border-radius: 8px;
   transition:
     background 0.18s ease,
     color 0.18s ease;
@@ -71,10 +70,6 @@ const { isActive } = useActiveLink()
   .icon {
     width: 22px;
     height: 22px;
-    color: currentColor;
-  }
-  .label {
-    color: currentColor;
   }
 
   &:hover {

@@ -39,6 +39,10 @@ const { theme, toggleTheme } = useTheme()
   @media (min-width: 1024px) {
     padding: 24px;
   }
+
+  @media (max-width: 1023px) {
+    padding-bottom: calc(var(--bottom-nav-height, 72px) + env(safe-area-inset-bottom, 0px) + 16px);
+  }
 }
 
 .theme-toggle {

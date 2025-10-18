@@ -51,7 +51,7 @@ const { isActive } = useActiveLink()
   gap: 2px;
   text-decoration: none;
   padding: 8px 6px;
-  border-radius: 12px;
+  border-radius: 8px;
   transition:
     background 0.18s ease,
     color 0.18s ease;
@@ -64,6 +64,7 @@ const { isActive } = useActiveLink()
     height: 22px;
     color: currentColor;
   }
+
   .label {
     font-size: 12px;
     line-height: 1;
