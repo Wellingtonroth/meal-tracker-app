@@ -1,9 +1,21 @@
+<script setup lang="ts">
+import { navItems } from '@/constants/navigation';
+
+const route = useRoute();
+const localePath = useLocalePath();
+
+const isActive = (to: string) => {
+  const loc = localePath(to);
+  return route.path === loc || route.path.startsWith(`${loc  }/`);
+};
+</script>
+
 <template>
   <nav class="bottom-nav" role="navigation" aria-label="Primary">
     <NuxtLink
       v-for="item in navItems"
       :key="item.to"
-      :to="item.to"
+      :to="localePath(item.to)"
       class="nav-item"
       :aria-label="item.label"
     >
@@ -16,12 +28,6 @@
     <div class="safe-area" aria-hidden="true" />
   </nav>
 </template>
-
-<script setup lang="ts">
-import { navItems } from '@/constants/navigation';
-
-const { isActive } = useActiveLink();
-</script>
 
 <style scoped lang="scss">
 .bottom-nav {
