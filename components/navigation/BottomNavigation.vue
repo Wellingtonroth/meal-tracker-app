@@ -18,9 +18,9 @@
 </template>
 
 <script setup lang="ts">
-import { navItems } from '@/constants/navigation'
+import { navItems } from '@/constants/navigation';
 
-const { isActive } = useActiveLink()
+const { isActive } = useActiveLink();
 </script>
 
 <style scoped lang="scss">
@@ -55,9 +55,7 @@ const { isActive } = useActiveLink()
   transition:
     background 0.18s ease,
     color 0.18s ease;
-
-  /* define cor-base */
-  color: var(--color-icon-muted);
+  color: var(--color-text);
 
   .icon {
     width: 22px;
@@ -69,6 +67,7 @@ const { isActive } = useActiveLink()
     font-size: 12px;
     line-height: 1;
     color: currentColor;
+    font-weight: 500;
   }
 
   &:hover {

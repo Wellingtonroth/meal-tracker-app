@@ -20,9 +20,9 @@
 </template>
 
 <script setup lang="ts">
-import { navItems } from '@/constants/navigation'
+import { navItems } from '@/constants/navigation';
 
-const { isActive } = useActiveLink()
+const { isActive } = useActiveLink();
 </script>
 
 <style scoped lang="scss">
@@ -65,7 +65,8 @@ const { isActive } = useActiveLink()
     background 0.18s ease,
     color 0.18s ease;
 
-  color: var(--color-icon-muted);
+  color: var(--color-text);
+  font-weight: 500;
 
   .icon {
     width: 22px;
