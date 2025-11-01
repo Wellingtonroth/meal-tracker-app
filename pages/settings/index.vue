@@ -1,18 +1,13 @@
 <template>
   <div>
     <header class="header">
-      <h1>Configurações</h1>
+      <h1>{{ t('settings.title') }}</h1>
     </header>
 
     <section v-for="section in settingsSections" :key="section.title" class="main">
       <b>{{ section.title }}</b>
 
-      <div
-        v-for="item in section.items"
-        :key="item.key"
-        class="container"
-        @click="item.route && router.push(item.route)"
-      >
+      <div v-for="item in section.items" :key="item.key" class="container" @click="go(item.route)">
         <div class="item-left">
           <component :is="item.icon" class="icon--sm" />
           <span>{{ item.label }}</span>
@@ -38,7 +33,15 @@ import {
 } from '@heroicons/vue/24/outline';
 import { ref } from 'vue';
 
+const { t } = useI18n();
+
 const router = useRouter();
+const localePath = useLocalePath();
+
+const go = (route?: string) => {
+  if (!route) return;
+  router.push(localePath(route));
+};
 
 const settingsSections = ref([
   {

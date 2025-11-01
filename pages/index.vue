@@ -1,6 +1,9 @@
+<script setup lang="ts">
+const { t } = useI18n();
+</script>
+
 <template>
-  <section>
-    <h1>Início</h1>
-    <p>Home do app. Navegue pelo menu para testar as rotas.</p>
-  </section>
+  <div>
+    <h1>{{ t('auth.login.title') }} aaaaaaaaaaaa</h1>
+  </div>
 </template>
