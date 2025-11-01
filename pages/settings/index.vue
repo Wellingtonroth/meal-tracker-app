@@ -1,3 +1,23 @@
+<template>
+  <div>
+    <header class="header">
+      <h1>{{ t('settings.title') }}</h1>
+    </header>
+
+    <section v-for="section in settingsSections" :key="section.title" class="main">
+      <b>{{ section.title }}</b>
+
+      <div v-for="item in section.items" :key="item.key" class="container" @click="go(item.route)">
+        <div class="item-left">
+          <component :is="item.icon" class="icon--sm" />
+          <span>{{ item.label }}</span>
+        </div>
+        <ChevronRightIcon class="icon--sm" />
+      </div>
+    </section>
+  </div>
+</template>
+
 <script setup lang="ts">
 import {
   ArrowRightStartOnRectangleIcon,
@@ -12,6 +32,8 @@ import {
   UserIcon,
 } from '@heroicons/vue/24/outline';
 import { ref } from 'vue';
+
+const { t } = useI18n();
 
 const router = useRouter();
 const localePath = useLocalePath();
@@ -71,26 +93,6 @@ const settingsSections = ref([
   },
 ]);
 </script>
-
-<template>
-  <div>
-    <header class="header">
-      <h1>Configurações</h1>
-    </header>
-
-    <section v-for="section in settingsSections" :key="section.title" class="main">
-      <b>{{ section.title }}</b>
-
-      <div v-for="item in section.items" :key="item.key" class="container" @click="go(item.route)">
-        <div class="item-left">
-          <component :is="item.icon" class="icon--sm" />
-          <span>{{ item.label }}</span>
-        </div>
-        <ChevronRightIcon class="icon--sm" />
-      </div>
-    </section>
-  </div>
-</template>
 
 <style scoped lang="scss">
 .header {
