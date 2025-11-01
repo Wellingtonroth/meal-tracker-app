@@ -6,7 +6,7 @@
       <NuxtLink
         v-for="item in navItems"
         :key="item.to"
-        :to="item.to"
+        :to="localePath(item.to)"
         class="row"
         :class="{ active: isActive(item.to) }"
       >
@@ -20,9 +20,21 @@
 </template>
 
 <script setup lang="ts">
-import { navItems } from '@/constants/navigation';
+import { getNavItems } from '@/constants/navigation';
 
-const { isActive } = useActiveLink();
+const navItems = getNavItems();
+
+const route = useRoute();
+const localePath = useLocalePath();
+
+const isActive = (rawTo: string) => {
+  const loc = localePath(rawTo);
+  const root = localePath('/');
+
+  if (loc === root) return route.path === root;
+
+  return route.path === loc || route.path.startsWith(`${loc}/`);
+};
 </script>
 
 <style scoped lang="scss">

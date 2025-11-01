@@ -1,4 +1,21 @@
 {
-  "auth.login.title": "Entrarr",
-  "settings.title": "Configurações"
+  "settings.title": "Configurações",
+  "settings.general.title": "Geral",
+  "settings.communication.title": "Comunicação",
+  "settings.notifications.title": "Notificações",
+  "settings.weekly-report.title": "Relatório semanal",
+  "settings.delete-account.title": "Deletar conta",
+  "settings.language.title": "Idioma",
+  "settings.name.title": "Nome",
+  "settings.email.title": "Email",
+  "settings.password.title": "Senha",
+  "settings.theme.title": "Tema",
+  "settings.logout.title": "Sair",
+  "settings.account.title": "Conta",
+  "settings.display.title": "Exibição",
+
+  "navigation.dashboard": "Início",
+  "navigation.plans": "Planos",
+  "navigation.reports": "Relatórios",
+  "navigation.settings": "Configurações"
 }

@@ -1,15 +1,3 @@
-<script setup lang="ts">
-import { navItems } from '@/constants/navigation';
-
-const route = useRoute();
-const localePath = useLocalePath();
-
-const isActive = (to: string) => {
-  const loc = localePath(to);
-  return route.path === loc || route.path.startsWith(`${loc  }/`);
-};
-</script>
-
 <template>
   <nav class="bottom-nav" role="navigation" aria-label="Primary">
     <NuxtLink
@@ -19,8 +7,8 @@ const isActive = (to: string) => {
       class="nav-item"
       :aria-label="item.label"
     >
-      <component :is="isActive(item.to) ? item.iconSolid : item.icon" class="icon" />
-      <span class="label" :class="{ active: isActive(item.to) }">
+      <component :is="isActive(localePath(item.to)) ? item.iconSolid : item.icon" class="icon" />
+      <span class="label" :class="{ active: isActive(localePath(item.to)) }">
         {{ item.label }}
       </span>
     </NuxtLink>
@@ -28,6 +16,17 @@ const isActive = (to: string) => {
     <div class="safe-area" aria-hidden="true" />
   </nav>
 </template>
+
+<script setup lang="ts">
+import { getNavItems } from '@/constants/navigation';
+
+const navItems = getNavItems();
+
+const route = useRoute();
+const localePath = useLocalePath();
+
+const isActive = (path: string) => route.path === path || route.path.startsWith(`${path}/`);
+</script>
 
 <style scoped lang="scss">
 .bottom-nav {
