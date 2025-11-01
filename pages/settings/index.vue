@@ -35,10 +35,10 @@ import {
   PaintBrushIcon,
   TrashIcon,
   UserIcon,
-} from '@heroicons/vue/24/outline'
-import { ref } from 'vue'
+} from '@heroicons/vue/24/outline';
+import { ref } from 'vue';
 
-const router = useRouter()
+const router = useRouter();
 
 const settingsSections = ref([
   {
@@ -80,10 +80,15 @@ const settingsSections = ref([
         icon: ArrowRightStartOnRectangleIcon,
         route: '/settings/logout',
       },
-      { label: 'Deletar conta', key: 'delete', icon: TrashIcon, route: '/settings/delete' },
+      {
+        label: 'Deletar conta',
+        key: 'deleteAccount',
+        icon: TrashIcon,
+        route: '/settings/delete-account',
+      },
     ],
   },
-])
+]);
 </script>
 
 <style scoped lang="scss">
