@@ -45,25 +45,40 @@ const go = (route?: string) => {
 
 const settingsSections = ref([
   {
-    title: 'Geral',
+    title: t('settings.general.title'),
     items: [
-      { label: 'Idioma', key: 'language', icon: LanguageIcon, route: '/settings/language' },
-      { label: 'Nome', key: 'name', icon: UserIcon, route: '/settings/name' },
-      { label: 'Email', key: 'email', icon: EnvelopeIcon, route: '/settings/email' },
-      { label: 'Senha', key: 'password', icon: LockClosedIcon, route: '/settings/password' },
+      {
+        label: t('settings.language.title'),
+        key: 'language',
+        icon: LanguageIcon,
+        route: '/settings/language',
+      },
+      { label: t('settings.name.title'), key: 'name', icon: UserIcon, route: '/settings/name' },
+      {
+        label: t('settings.email.title'),
+        key: 'email',
+        icon: EnvelopeIcon,
+        route: '/settings/email',
+      },
+      {
+        label: t('settings.password.title'),
+        key: 'password',
+        icon: LockClosedIcon,
+        route: '/settings/password',
+      },
     ],
   },
   {
-    title: 'Comunicação',
+    title: t('settings.communication.title'),
     items: [
       {
-        label: 'Lembrete de refeição',
+        label: t('settings.notifications.title'),
         key: 'mealReminder',
         icon: BellAlertIcon,
         route: '/settings/notifications',
       },
       {
-        label: 'Relatório semanal',
+        label: t('settings.weekly-report.title'),
         key: 'weeklyReport',
         icon: ChartBarSquareIcon,
         route: '/settings/weekly-report',
@@ -71,20 +86,27 @@ const settingsSections = ref([
     ],
   },
   {
-    title: 'Exibição',
-    items: [{ label: 'Tema', key: 'theme', icon: PaintBrushIcon, route: '/settings/theme' }],
-  },
-  {
-    title: 'Conta',
+    title: t('settings.display.title'),
     items: [
       {
-        label: 'Sair',
+        label: t('settings.theme.title'),
+        key: 'theme',
+        icon: PaintBrushIcon,
+        route: '/settings/theme',
+      },
+    ],
+  },
+  {
+    title: t('settings.account.title'),
+    items: [
+      {
+        label: t('settings.logout.title'),
         key: 'logout',
         icon: ArrowRightStartOnRectangleIcon,
         route: '/settings/logout',
       },
       {
-        label: 'Deletar conta',
+        label: t('settings.delete-account.title'),
         key: 'deleteAccount',
         icon: TrashIcon,
         route: '/settings/delete-account',

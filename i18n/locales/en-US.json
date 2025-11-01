@@ -1,4 +1,21 @@
 {
-  "auth.login.title": "Entrar INLGES",
-  "settings.title": "Settings"
+  "settings.title": "Settings",
+  "settings.general.title": "General",
+  "settings.communication.title": "Communication",
+  "settings.notifications.title": "Notifications",
+  "settings.weekly-report.title": "Weekly report",
+  "settings.delete-account.title": "Delete account",
+  "settings.language.title": "Language",
+  "settings.name.title": "Name",
+  "settings.email.title": "Email",
+  "settings.password.title": "Password",
+  "settings.theme.title": "Theme",
+  "settings.logout.title": "Logout",
+  "settings.account.title": "Account",
+  "settings.display.title": "Display",
+
+  "navigation.dashboard": "Dashboar",
+  "navigation.plans": "Plans",
+  "navigation.reports": "Reports",
+  "navigation.settings": "Settings"
 }
