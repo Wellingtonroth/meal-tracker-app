@@ -4,6 +4,18 @@
 export default defineNuxtConfig({
   modules: ['@pinia/nuxt', '@vite-pwa/nuxt', '@nuxtjs/i18n'],
   compatibilityDate: '2025-09-23',
+  runtimeConfig: {
+    firebase: { projectId: '', clientEmail: '', privateKey: '' },
+    public: {
+      firebase: {
+        apiKey: process.env.NUXT_PUBLIC_FIREBASE_API_KEY,
+        authDomain: process.env.NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+        projectId: process.env.NUXT_PUBLIC_FIREBASE_PROJECT_ID,
+        appId: process.env.NUXT_PUBLIC_FIREBASE_APP_ID,
+        messagingSenderId: process.env.NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+      },
+    },
+  },
   imports: {
     dirs: ['stores'],
   },
