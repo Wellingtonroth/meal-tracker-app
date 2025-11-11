@@ -21,5 +21,16 @@ export default antfu({
     'vue/singleline-html-element-content-newline': 'off',
     'style/no-trailing-spaces': 'off',
     // 'style/comma-dangle': 'off',
+    'vue/html-self-closing': ['error', {
+      html: {
+        void: 'any',
+        normal: 'any',
+        component: 'always',
+      },
+      svg: 'always',
+      math: 'always',
+    }],
+    'node/prefer-global/process': 'off',
+    'perfectionist/sort-imports': 'off',
   },
 })
