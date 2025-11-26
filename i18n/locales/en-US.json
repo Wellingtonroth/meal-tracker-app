@@ -1,4 +1,6 @@
 {
+  "app.name": "Meal Tracker",
+
   "settings.title": "Settings",
   "settings.general.title": "General",
   "settings.communication.title": "Communication",
@@ -14,7 +16,7 @@
   "settings.account.title": "Account",
   "settings.display.title": "Display",
 
-  "navigation.dashboard": "Dashboar",
+  "navigation.dashboard": "Dashboard",
   "navigation.plans": "Plans",
   "navigation.reports": "Reports",
   "navigation.settings": "Settings"
