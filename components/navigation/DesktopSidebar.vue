@@ -1,6 +1,6 @@
 <template>
   <aside class="sidebar" aria-label="Primary">
-    <strong class="brand">Meal Tracker</strong>
+    <strong class="brand">{{ $t('app.name') }}</strong>
 
     <nav class="menu">
       <NuxtLink
