@@ -1,20 +1,11 @@
-import { storeToRefs } from 'pinia';
-import { useAppStore } from '@/stores/auth';
-
 export default defineNuxtRouteMiddleware(async (to, _from) => {
   if (import.meta.server) {
     return;
   }
 
-  const authStore = useAppStore();
-  const authPromise = authStore.initAuthListener();
+  const { user, waitForAuth } = useAuth();
 
-  // Aguarda o estado inicial ser determinado
-  if (authPromise) {
-    await authPromise;
-  }
-
-  const { user } = storeToRefs(authStore);
+  await waitForAuth();
 
   if (!user.value) {
     return navigateTo({
