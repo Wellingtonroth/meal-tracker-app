@@ -4,10 +4,15 @@ import { useEncryption } from '@/composables/useEncryption';
 import type { AuthResponse, UserData } from '@/types/auth';
 
 export class AuthService {
-  private getAuthSafe(): Auth {
+  private getAuthSafe(): Auth | null {
     const nuxtApp = useNuxtApp();
-    const auth = nuxtApp.$firebaseAuth as Auth | undefined;
-    if (!auth) throw new Error('[Auth] Firebase Auth não está disponível');
+    const auth = nuxtApp.$firebaseAuth as Auth | undefined | null;
+    if (!auth) {
+      console.warn(
+        '[Auth] Firebase Auth não está disponível. Verifique as configurações do Firebase.',
+      );
+      return null;
+    }
     return auth;
   }
 
@@ -21,6 +26,15 @@ export class AuthService {
 
     try {
       const auth = this.getAuthSafe();
+
+      if (!auth) {
+        // Se o Firebase não está disponível, apenas retorna null como usuário
+        onUserChange(null);
+        if (onError) {
+          onError(new Error('Firebase não está configurado. Verifique as variáveis de ambiente.'));
+        }
+        return;
+      }
 
       const unsubscribe = onAuthStateChanged(
         auth,
@@ -117,7 +131,10 @@ export class AuthService {
       console.warn('[Auth] Erro ao limpar cookies no backend:', error);
     }
 
-    await signOut(this.getAuthSafe());
+    const auth = this.getAuthSafe();
+    if (auth) {
+      await signOut(auth);
+    }
   }
 }
 
