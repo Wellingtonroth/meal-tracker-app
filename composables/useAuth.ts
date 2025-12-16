@@ -1,7 +1,7 @@
 import { storeToRefs } from 'pinia';
-import { useAppStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/auth';
 
-export default function useAuth(store = useAppStore()) {
+export default function useAuth(store = useAuthStore()) {
   const { user, isLoading, error } = storeToRefs(store);
 
   if (import.meta.client && typeof window !== 'undefined') {
