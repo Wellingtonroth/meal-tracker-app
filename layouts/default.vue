@@ -14,10 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import BottomNavigation from '@/components/navigation/BottomNavigation.vue'
-import DesktopSidebar from '@/components/navigation/DesktopSidebar.vue'
+import BottomNavigation from '@/components/navigation/BottomNavigation.vue';
+import DesktopSidebar from '@/components/navigation/DesktopSidebar.vue';
 
-const { theme, toggleTheme } = useTheme()
+const { theme, toggleTheme } = useTheme();
 </script>
 
 <style scoped lang="scss">
