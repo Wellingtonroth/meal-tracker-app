@@ -27,7 +27,41 @@
             required
             :disabled="isSubmitting"
             autocomplete="new-password"
+            :class="{ error: passwordErrors.length > 0 }"
           />
+          <div v-if="password.length > 0" class="password-strength">
+            <div class="strength-bar">
+              <div
+                class="strength-fill"
+                :class="`strength-${passwordStrength}`"
+                :style="{
+                  width:
+                    passwordStrength === 'weak'
+                      ? '33%'
+                      : passwordStrength === 'medium'
+                        ? '66%'
+                        : '100%',
+                }"
+              />
+            </div>
+            <span class="strength-text" :class="`strength-${passwordStrength}`">
+              Força:
+              {{
+                passwordStrength === 'weak'
+                  ? 'Fraca'
+                  : passwordStrength === 'medium'
+                    ? 'Média'
+                    : 'Forte'
+              }}
+            </span>
+          </div>
+          <div v-if="passwordErrors.length > 0" class="password-errors">
+            <ul>
+              <li v-for="(error, index) in passwordErrors" :key="index">
+                {{ error }}
+              </li>
+            </ul>
+          </div>
         </label>
 
         <button type="submit" :disabled="isSubmitting">
@@ -44,27 +78,61 @@
 </template>
 
 <script setup lang="ts">
-const { register, error, clearError } = useAuth();
+import type { PasswordValidationResult } from '@/types/auth';
+
 const router = useRouter();
 const email = ref('');
 const password = ref('');
 const isSubmitting = ref(false);
+const passwordErrors = ref<string[]>([]);
+const passwordStrength = ref<'weak' | 'medium' | 'strong'>('weak');
+
+const { register, error, clearError } = useAuth();
+const { validatePassword } = usePasswordValidation();
+
 const errorMessage = computed(() => error.value);
 
 onMounted(() => {
   clearError();
 });
 
+watch(password, (newPassword) => {
+  if (newPassword.length > 0) {
+    const validation: PasswordValidationResult = validatePassword(newPassword);
+    passwordErrors.value = validation.errors;
+    passwordStrength.value = validation.strength;
+  } else {
+    passwordErrors.value = [];
+    passwordStrength.value = 'weak';
+  }
+});
+
 async function submit() {
   if (isSubmitting.value) return;
+
+  const validation = validatePassword(password.value);
+  if (!validation.isValid) {
+    passwordErrors.value = validation.errors;
+    return;
+  }
 
   try {
     isSubmitting.value = true;
     clearError();
-    await register(email.value, password.value);
+    passwordErrors.value = [];
+    const passwordValue = password.value;
+    await register(email.value, passwordValue);
+
+    password.value = '';
+
     await router.push('/home');
   } catch (err) {
-    console.error('Erro no registro:', err);
+    password.value = '';
+    const statusCode = (err as any)?.statusCode || (err as any)?.status;
+    if (import.meta.dev && statusCode && statusCode !== 400) {
+      const errorMessage = err instanceof Error ? err.message : 'Erro desconhecido';
+      console.error('[Register] Erro inesperado:', errorMessage);
+    }
   } finally {
     isSubmitting.value = false;
   }
@@ -132,6 +200,76 @@ async function submit() {
         &:disabled {
           opacity: 0.6;
           cursor: not-allowed;
+        }
+
+        &.error {
+          border-color: #ef4444;
+        }
+      }
+
+      .password-strength {
+        margin-top: 0.5rem;
+        font-size: 0.75rem;
+
+        .strength-bar {
+          width: 100%;
+          height: 4px;
+          background: var(--color-divider);
+          border-radius: 2px;
+          overflow: hidden;
+          margin-bottom: 0.3rem;
+        }
+
+        .strength-fill {
+          height: 100%;
+          transition:
+            width 0.3s,
+            background-color 0.3s;
+          border-radius: 2px;
+
+          &.strength-weak {
+            background: var(--color-error);
+          }
+
+          &.strength-medium {
+            background: var(--color-warning);
+          }
+
+          &.strength-strong {
+            background: var(--color-success);
+          }
+        }
+
+        .strength-text {
+          font-weight: 500;
+
+          &.strength-weak {
+            color: var(--color-error);
+          }
+
+          &.strength-medium {
+            color: var(--color-warning);
+          }
+
+          &.strength-strong {
+            color: var(--color-success);
+          }
+        }
+      }
+
+      .password-errors {
+        margin-top: 0.5rem;
+        font-size: 0.8rem;
+        color: #ef4444;
+
+        ul {
+          margin: 0;
+          padding-left: 1.2rem;
+          list-style-type: disc;
+        }
+
+        li {
+          margin-top: 0.2rem;
         }
       }
     }
