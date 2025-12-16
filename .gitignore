@@ -13,6 +13,12 @@ node_modules
 logs
 *.log
 
+# Audit files
+AUDITORIA_SEGURANCA_AUTH.md
+FLUXO_AUTENTICACAO_ATUAL.md
+EXEMPLO_INTEGRACAO_COMPLETO.md
+COMPARACAO_PRATICAS_2025.md
+
 # Misc
 .DS_Store
 .fleet
