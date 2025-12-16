@@ -8,6 +8,13 @@ export default function useAuth(store = useAppStore()) {
     store.initAuthListener();
   }
 
+  const waitForAuth = async (): Promise<void> => {
+    const authPromise = store.initAuthListener();
+    if (authPromise) {
+      await authPromise;
+    }
+  };
+
   return {
     user,
     isLoading,
@@ -16,5 +23,6 @@ export default function useAuth(store = useAppStore()) {
     login: store.login,
     logout: store.logout,
     clearError: store.clearError,
+    waitForAuth,
   };
 }
