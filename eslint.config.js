@@ -1,4 +1,4 @@
-import antfu from '@antfu/eslint-config'
+import antfu from '@antfu/eslint-config';
 
 export default antfu({
   vue: true,
@@ -21,16 +21,19 @@ export default antfu({
     'vue/singleline-html-element-content-newline': 'off',
     'style/no-trailing-spaces': 'off',
     // 'style/comma-dangle': 'off',
-    'vue/html-self-closing': ['error', {
-      html: {
-        void: 'any',
-        normal: 'any',
-        component: 'always',
+    'vue/html-self-closing': [
+      'error',
+      {
+        html: {
+          void: 'any',
+          normal: 'any',
+          component: 'always',
+        },
+        svg: 'always',
+        math: 'always',
       },
-      svg: 'always',
-      math: 'always',
-    }],
+    ],
     'node/prefer-global/process': 'off',
     'perfectionist/sort-imports': 'off',
   },
-})
+});

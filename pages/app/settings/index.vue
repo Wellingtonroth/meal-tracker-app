@@ -33,6 +33,11 @@ import {
 } from '@heroicons/vue/24/outline';
 import { ref } from 'vue';
 
+definePageMeta({
+  layout: 'app',
+  middleware: 'app',
+});
+
 const { t } = useI18n();
 
 const router = useRouter();
@@ -51,20 +56,20 @@ const settingsSections = ref([
         label: t('settings.language.title'),
         key: 'language',
         icon: LanguageIcon,
-        route: '/settings/language',
+        route: '/app/settings/language',
       },
-      { label: t('settings.name.title'), key: 'name', icon: UserIcon, route: '/settings/name' },
+      { label: t('settings.name.title'), key: 'name', icon: UserIcon, route: '/app/settings/name' },
       {
         label: t('settings.email.title'),
         key: 'email',
         icon: EnvelopeIcon,
-        route: '/settings/email',
+        route: '/app/settings/email',
       },
       {
         label: t('settings.password.title'),
         key: 'password',
         icon: LockClosedIcon,
-        route: '/settings/password',
+        route: '/app/settings/password',
       },
     ],
   },
@@ -75,13 +80,13 @@ const settingsSections = ref([
         label: t('settings.notifications.title'),
         key: 'mealReminder',
         icon: BellAlertIcon,
-        route: '/settings/notifications',
+        route: '/app/settings/notifications',
       },
       {
         label: t('settings.weekly-report.title'),
         key: 'weeklyReport',
         icon: ChartBarSquareIcon,
-        route: '/settings/weekly-report',
+        route: '/app/settings/weekly-report',
       },
     ],
   },
@@ -92,7 +97,7 @@ const settingsSections = ref([
         label: t('settings.theme.title'),
         key: 'theme',
         icon: PaintBrushIcon,
-        route: '/settings/theme',
+        route: '/app/settings/theme',
       },
     ],
   },
@@ -103,13 +108,13 @@ const settingsSections = ref([
         label: t('settings.logout.title'),
         key: 'logout',
         icon: ArrowRightStartOnRectangleIcon,
-        route: '/settings/logout',
+        route: '/app/settings/logout',
       },
       {
         label: t('settings.delete-account.title'),
         key: 'deleteAccount',
         icon: TrashIcon,
-        route: '/settings/delete-account',
+        route: '/app/settings/delete-account',
       },
     ],
   },

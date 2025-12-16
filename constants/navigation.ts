@@ -17,25 +17,25 @@ export const getNavItems = () => {
 
   return [
     {
-      to: '/',
+      to: '/app/home',
       label: t('navigation.dashboard'),
       icon: HomeOutline,
       iconSolid: HomeSolid,
     },
     {
-      to: '/plans',
+      to: '/app/plans',
       label: t('navigation.plans'),
       icon: DocOutline,
       iconSolid: DocSolid,
     },
     {
-      to: '/reports',
+      to: '/app/reports',
       label: t('navigation.reports'),
       icon: ChartOutline,
       iconSolid: ChartSolid,
     },
     {
-      to: '/settings',
+      to: '/app/settings',
       label: t('navigation.settings'),
       icon: CogOutline,
       iconSolid: CogSolid,

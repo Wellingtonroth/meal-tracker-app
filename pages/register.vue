@@ -57,8 +57,8 @@
           </div>
           <div v-if="passwordErrors.length > 0" class="password-errors">
             <ul>
-              <li v-for="(error, index) in passwordErrors" :key="index">
-                {{ error }}
+              <li v-for="(err, index) in passwordErrors" :key="index">
+                {{ err }}
               </li>
             </ul>
           </div>
@@ -79,6 +79,10 @@
 
 <script setup lang="ts">
 import type { PasswordValidationResult } from '@/types/auth';
+
+definePageMeta({
+  layout: 'empty',
+});
 
 const router = useRouter();
 const email = ref('');
@@ -125,7 +129,7 @@ async function submit() {
 
     password.value = '';
 
-    await router.push('/home');
+    await router.push('/app/home');
   } catch (err) {
     password.value = '';
     const statusCode = (err as any)?.statusCode || (err as any)?.status;
