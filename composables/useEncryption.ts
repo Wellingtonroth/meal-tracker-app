@@ -66,7 +66,14 @@ export function useEncryption() {
 
   function getEncryptionKey(): string {
     const config = useRuntimeConfig();
-    // Em produção, isso deveria ser uma variável de ambiente separada
+    // ⚠️ SEGURANÇA: A chave de criptografia é derivada de valores públicos
+    // Isso significa que a criptografia client-side não adiciona segurança real
+    // É apenas uma camada de ofuscação durante a transmissão
+    //
+    // RECOMENDAÇÃO: Em produção, use uma chave privada via variável de ambiente:
+    // const encryptionKey = config.private.encryptionKey || config.public.firebase.apiKey;
+    //
+    // NOTA: A segurança real vem do HTTPS e da validação no backend
     return `${config.public.firebase.apiKey}_${config.public.firebase.projectId}_encryption_key`;
   }
 
