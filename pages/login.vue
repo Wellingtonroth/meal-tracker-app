@@ -53,24 +53,34 @@ const password = ref('');
 const isSubmitting = ref(false);
 const errorMessage = computed(() => error.value);
 
-onMounted(() => {
-  clearError();
-});
-
-async function submit() {
+const submit = async () => {
   if (isSubmitting.value) return;
 
   try {
     isSubmitting.value = true;
     clearError();
-    await login(email.value, password.value);
+    const passwordValue = password.value;
+    await login(email.value, passwordValue);
+
+    password.value = '';
+
     await router.push((route.query.redirect as string) || '/home');
   } catch (err) {
-    console.error('Erro no login:', err);
+    password.value = '';
+
+    const statusCode = (err as any)?.statusCode || (err as any)?.status;
+    if (import.meta.dev && statusCode && statusCode !== 400) {
+      const errorMessage = err instanceof Error ? err.message : 'Erro desconhecido';
+      console.error('[Login] Erro inesperado:', errorMessage);
+    }
   } finally {
     isSubmitting.value = false;
   }
-}
+};
+
+onMounted(() => {
+  clearError();
+});
 </script>
 
 <style scoped lang="scss">
