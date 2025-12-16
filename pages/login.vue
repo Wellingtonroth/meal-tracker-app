@@ -44,6 +44,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: 'empty',
+});
+
 const { login, error, clearError } = useAuth();
 
 const router = useRouter();
@@ -64,7 +68,7 @@ const submit = async () => {
 
     password.value = '';
 
-    await router.push((route.query.redirect as string) || '/home');
+    await router.push((route.query.redirect as string) || '/app/home');
   } catch (err) {
     password.value = '';
 
