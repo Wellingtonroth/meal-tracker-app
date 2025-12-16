@@ -4,6 +4,9 @@
 export default defineNuxtConfig({
   modules: ['@pinia/nuxt', '@vite-pwa/nuxt', '@nuxtjs/i18n'],
   compatibilityDate: '2025-09-23',
+  nitro: {
+    preset: 'vercel',
+  },
   runtimeConfig: {
     firebase: { projectId: '', clientEmail: '', privateKey: '' },
     public: {
