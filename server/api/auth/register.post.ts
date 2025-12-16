@@ -1,4 +1,7 @@
-export default defineEventHandler(async (event) => {
+import { isProduction as isProductionEnv } from '../../utils/env';
+import type { AuthResponse } from '@/types/auth';
+
+export default defineEventHandler(async (event): Promise<AuthResponse> => {
   try {
     const body = await readBody(event);
     const { email, encryptedPassword, iv } = body;
@@ -25,7 +28,6 @@ export default defineEventHandler(async (event) => {
         },
       },
     ).catch((error: any) => {
-      // Traduzir erros do Firebase
       const errorMessage = error?.data?.error?.message || error.message || 'Erro ao criar conta';
       throw createError({
         statusCode: 400,
@@ -45,15 +47,34 @@ export default defineEventHandler(async (event) => {
       email: string;
     };
 
-    return {
-      success: true,
-      idToken,
-      refreshToken,
+    const isProduction = isProductionEnv();
+    const maxAge = 60 * 60 * 24 * 7; // 7 dias
+
+    setCookie(event, 'firebase_id_token', idToken, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: 'lax',
+      maxAge,
+      path: '/',
+    });
+
+    if (refreshToken) {
+      setCookie(event, 'firebase_refresh_token', refreshToken, {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 30,
+        path: '/',
+      });
+    }
+
+    const response: AuthResponse = {
       user: {
         uid: localId,
         email: firebaseEmail,
       },
     };
+    return response;
   } catch (error: any) {
     throw createError({
       statusCode: error.statusCode || 500,
