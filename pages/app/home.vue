@@ -1,9 +1,12 @@
 <template>
   <div class="home">
     <h1>Bem-vindo!</h1>
-    <p v-if="user">Você está logado como {{ user.email }}</p>
-    <p v-else>Carregando...</p>
-    <button @click="logout">Sair</button>
+    <div v-if="isLoading">Carregando...</div>
+    <template v-else>
+      <p v-if="user">Você está logado como {{ user.email }}</p>
+      <p v-else>Não autenticado</p>
+      <button v-if="user" @click="logout">Sair</button>
+    </template>
   </div>
 </template>
 
@@ -12,7 +15,12 @@ definePageMeta({
   layout: 'authenticated',
 });
 
-const { logout, user } = useAuth();
+const { logout, user, isLoading, waitForAuth } = useAuth();
+
+// Aguardar a inicialização do listener antes de renderizar
+onMounted(async () => {
+  await waitForAuth();
+});
 </script>
 
 <style scoped lang="scss">
