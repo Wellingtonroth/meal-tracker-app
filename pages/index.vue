@@ -5,7 +5,6 @@
     <div class="actions">
       <NuxtLink to="/login" class="btn btn-primary">Entrar</NuxtLink>
       <NuxtLink to="/register" class="btn btn-secondary">Criar Conta</NuxtLink>
-      <NuxtLink to="/paywall" class="btn btn-outline">Ver Planos</NuxtLink>
     </div>
   </div>
 </template>

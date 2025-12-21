@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1>Bem-vindo!</h1>
-    <p v-if="user">Você está logado como {{ user.email }} ✅</p>
+    <p v-if="user">Você está logado como {{ user.email }}</p>
     <p v-else>Carregando...</p>
     <button @click="logout">Sair</button>
   </div>
@@ -9,8 +9,7 @@
 
 <script setup lang="ts">
 definePageMeta({
-  layout: 'app',
-  middleware: 'app',
+  layout: 'authenticated',
 });
 
 const { logout, user } = useAuth();
