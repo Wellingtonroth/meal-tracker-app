@@ -34,8 +34,7 @@ import {
 import { ref } from 'vue';
 
 definePageMeta({
-  layout: 'app',
-  middleware: 'app',
+  layout: 'authenticated',
 });
 
 const { t } = useI18n();
