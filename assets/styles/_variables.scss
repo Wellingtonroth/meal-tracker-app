@@ -1,49 +1,49 @@
 :root {
-  --color-background: #f6f8fb;
-  --color-surface: #fafafa;
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
   --color-surface-elevated: #ffffff;
-  --color-primary: #1e88e5;
+  --color-primary: #0ea5e9;
   --color-on-primary: #ffffff;
-  --color-secondary: #fb8c00;
+  --color-secondary: #14b8a6;
 
-  --color-success: #43a047;
-  --color-warning: #fbc02d;
-  --color-error: #e53935;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
 
-  --color-text: #1a1a1a;
-  --color-text-muted: #6b7280;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
 
-  --color-divider: rgba(0, 0, 0, 0.08);
-  --color-ghost: rgba(30, 136, 229, 0.1);
-  --color-ghost-strong: rgba(30, 136, 229, 0.16);
+  --color-divider: rgba(15, 23, 42, 0.08);
+  --color-ghost: rgba(14, 165, 233, 0.1);
+  --color-ghost-strong: rgba(14, 165, 233, 0.16);
 
-  --color-icon-muted: #4b5563;
+  --color-icon-muted: #64748b;
 
-  --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.06);
+  --shadow-soft: 0 4px 12px rgba(14, 165, 233, 0.08);
 }
 
 :root[data-theme='dark'] {
-  --color-background: #121212;
-  --color-surface: #1b1e25;
-  --color-surface-elevated: #171a20;
-  --color-primary: #64b5f6;
-  --color-on-primary: #0a0a0a;
-  --color-secondary: #ffb74d;
+  --color-background: #0f172a;
+  --color-surface: #1e293b;
+  --color-surface-elevated: #334155;
+  --color-primary: #38bdf8;
+  --color-on-primary: #0f172a;
+  --color-secondary: #2dd4bf;
 
-  --color-success: #81c784;
-  --color-warning: #fff176;
-  --color-error: #ef9a9a;
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
 
-  --color-text: #f2f2f2;
-  --color-text-muted: #a3aab8;
+  --color-text: #f1f5f9;
+  --color-text-muted: #94a3b8;
 
-  --color-divider: rgba(255, 255, 255, 0.1);
-  --color-ghost: rgba(100, 181, 246, 0.14);
-  --color-ghost-strong: rgba(100, 181, 246, 0.22);
+  --color-divider: rgba(241, 245, 249, 0.1);
+  --color-ghost: rgba(56, 189, 248, 0.12);
+  --color-ghost-strong: rgba(56, 189, 248, 0.2);
 
-  --color-icon-muted: #c8ccd3;
+  --color-icon-muted: #cbd5e1;
 
-  --shadow-soft: 0 -6px 18px rgba(0, 0, 0, 0.35);
+  --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 .icon--sm {

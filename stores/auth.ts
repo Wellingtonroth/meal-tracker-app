@@ -24,18 +24,61 @@ export const useAuthStore = defineStore('auth', {
       listenerInitialized = true;
 
       authStatePromise = new Promise<void>((resolve) => {
-        authService.initAuthListener(
-          (user) => {
-            this.user = user;
+        let resolved = false;
+
+        const timeoutId = setTimeout(() => {
+          if (!resolved) {
+            if (import.meta.dev) {
+              console.warn(
+                '[Auth Store] Timeout ao aguardar estado de autenticação. Considerando como não autenticado.',
+              );
+            }
             this.isLoading = false;
+            resolved = true;
             resolve();
+          }
+        }, 5000);
+
+        const unsubscribe = authService.initAuthListener(
+          (user) => {
+            if (import.meta.dev) {
+              console.warn(
+                '[Auth Store] Estado do usuário atualizado:',
+                user ? user.email : 'null',
+              );
+            }
+            if (!resolved) {
+              clearTimeout(timeoutId);
+              this.user = user;
+              this.isLoading = false;
+              resolved = true;
+              resolve();
+            }
           },
           (error) => {
-            this.error = error.message;
-            this.isLoading = false;
-            resolve();
+            console.error('[Auth Store] Erro no listener:', error);
+            if (!resolved) {
+              clearTimeout(timeoutId);
+              this.error = error.message;
+              this.isLoading = false;
+              resolved = true;
+              resolve();
+            }
           },
         );
+
+        // Se o listener não retornou uma função de unsubscribe, significa que houve um problema
+        if (!unsubscribe && import.meta.dev) {
+          console.warn(
+            '[Auth Store] Listener não retornou função de unsubscribe. Verifique a configuração do Firebase.',
+          );
+          clearTimeout(timeoutId);
+          if (!resolved) {
+            this.isLoading = false;
+            resolved = true;
+            resolve();
+          }
+        }
       });
 
       return authStatePromise;
@@ -92,6 +135,17 @@ export const useAuthStore = defineStore('auth', {
         this.clearError();
         await authService.logout();
         this.user = null;
+
+        // Redirecionar para login após logout bem-sucedido
+        // Usar window.location para garantir redirecionamento mesmo se navigateTo falhar
+        if (import.meta.client && typeof window !== 'undefined') {
+          try {
+            await navigateTo('/login');
+          } catch {
+            // Fallback: usar window.location se navigateTo falhar
+            window.location.href = '/login';
+          }
+        }
       } catch (err: any) {
         this.error = err?.message || 'Erro ao fazer logout';
         throw err;

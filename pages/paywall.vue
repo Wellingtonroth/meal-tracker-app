@@ -23,12 +23,11 @@
         <button class="btn">Escolher Plano</button>
       </div>
     </div>
-    <NuxtLink to="/login" class="back-link">Já tem conta? Entrar</NuxtLink>
+    <NuxtLink to="/login" class="back-link" target="_blank">Já tem conta? Entrar</NuxtLink>
   </div>
 </template>
 
 <script setup lang="ts">
-// Paywall - rota pública
 definePageMeta({
   layout: 'empty',
 });

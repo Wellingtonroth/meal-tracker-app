@@ -5,15 +5,24 @@ import type { AuthResponse, UserData } from '@/types/auth';
 
 export class AuthService {
   private getAuthSafe(): Auth | null {
-    const nuxtApp = useNuxtApp();
-    const auth = nuxtApp.$firebaseAuth as Auth | undefined | null;
-    if (!auth) {
-      console.warn(
-        '[Auth] Firebase Auth não está disponível. Verifique as configurações do Firebase.',
-      );
+    try {
+      const nuxtApp = useNuxtApp();
+      const auth = nuxtApp.$firebaseAuth as Auth | undefined | null;
+      if (!auth) {
+        if (import.meta.dev) {
+          console.warn(
+            '[Auth] Firebase Auth não está disponível. Verifique as configurações do Firebase.',
+          );
+        }
+        return null;
+      }
+      return auth;
+    } catch (error) {
+      if (import.meta.dev) {
+        console.error('[Auth] Erro ao acessar Firebase Auth:', error);
+      }
       return null;
     }
-    return auth;
   }
 
   initAuthListener(
@@ -24,44 +33,67 @@ export class AuthService {
       return;
     }
 
+    // Verificar autenticação via endpoint do servidor (fonte de verdade)
+    // Isso funciona porque a autenticação é feita via API REST no backend
+    this.checkAuthFromServer(onUserChange, onError);
+
+    // Manter listener do Firebase SDK como fallback (para casos especiais)
+    // mas a fonte principal é o endpoint do servidor
     try {
       const auth = this.getAuthSafe();
+      if (auth) {
+        const unsubscribe = onAuthStateChanged(
+          auth,
+          (fbUser: FbUser | null) => {
+            // O Firebase SDK pode detectar mudanças locais (logout, etc)
+            // Mas não detecta login feito via API REST, então confiamos no servidor
+            if (!fbUser) {
+              // Se o Firebase SDK detecta logout, verificar novamente no servidor
+              this.checkAuthFromServer(onUserChange, onError);
+            }
+          },
+          (error) => {
+            console.error('[Auth] Erro no listener do Firebase:', error);
+            // Em caso de erro, verificar no servidor
+            this.checkAuthFromServer(onUserChange, onError);
+          },
+        );
 
-      if (!auth) {
-        // Se o Firebase não está disponível, apenas retorna null como usuário
-        onUserChange(null);
-        if (onError) {
-          onError(new Error('Firebase não está configurado. Verifique as variáveis de ambiente.'));
-        }
-        return;
+        return unsubscribe;
       }
-
-      const unsubscribe = onAuthStateChanged(
-        auth,
-        (fbUser: FbUser | null) => {
-          if (fbUser) {
-            onUserChange({
-              uid: fbUser.uid,
-              email: fbUser.email,
-              displayName: fbUser.displayName,
-            });
-          } else {
-            onUserChange(null);
-          }
-        },
-        (error) => {
-          console.error('[Auth] Erro no listener:', error);
-          if (onError) {
-            onError(error);
-          }
-        },
-      );
-
-      return unsubscribe;
     } catch (error: any) {
-      console.error('[Auth] Erro ao inicializar listener:', error);
+      console.error('[Auth] Erro ao inicializar listener do Firebase:', error);
+      // Se o Firebase SDK falhar, ainda verificamos no servidor
+      this.checkAuthFromServer(onUserChange, onError);
+    }
+  }
+
+  /**
+   * Verifica autenticação consultando o endpoint do servidor
+   * Esta é a fonte de verdade, pois a autenticação é feita via API REST
+   */
+  private async checkAuthFromServer(
+    onUserChange: (user: UserData | null) => void,
+    onError?: (error: Error) => void,
+  ): Promise<void> {
+    try {
+      const response = await $fetch<{ user: UserData | null }>('/api/auth/me', {
+        method: 'GET',
+      }).catch((error: any) => {
+        if (import.meta.dev) {
+          console.error('[Auth] Erro ao verificar autenticação no servidor:', error);
+        }
+        return { user: null };
+      });
+
+      onUserChange(response.user);
+    } catch (error: any) {
+      if (import.meta.dev) {
+        console.error('[Auth] Erro ao verificar autenticação:', error);
+      }
+      onUserChange(null);
       if (onError) {
-        onError(error);
+        onError(error instanceof Error ? error : new Error('Erro ao verificar autenticação'));
       }
     }
   }
