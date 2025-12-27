@@ -1,6 +1,5 @@
 import type { Auth, User as FbUser } from 'firebase/auth';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { useEncryption } from '@/composables/useEncryption';
 import type { AuthResponse, UserData } from '@/types/auth';
 
 export class AuthService {
@@ -99,16 +98,12 @@ export class AuthService {
   }
 
   async register(email: string, password: string): Promise<AuthResponse> {
-    const { encryptPassword, getEncryptionKey } = useEncryption();
-    const encryptionKey = getEncryptionKey();
-    const { encrypted, iv } = await encryptPassword(password, encryptionKey);
-
+    // Envia senha diretamente ao servidor (protegida pelo HTTPS)
     const response = await $fetch('/api/auth/register', {
       method: 'POST',
       body: {
         email,
-        encryptedPassword: encrypted,
-        iv,
+        password,
       },
     }).catch((error: any) => {
       const statusCode = error?.statusCode || error?.status || error?.response?.status;
@@ -122,21 +117,16 @@ export class AuthService {
     });
 
     const authResponse = response as unknown as AuthResponse;
-
     return authResponse;
   }
 
   async login(email: string, password: string): Promise<AuthResponse> {
-    const { encryptPassword, getEncryptionKey } = useEncryption();
-    const encryptionKey = getEncryptionKey();
-    const { encrypted, iv } = await encryptPassword(password, encryptionKey);
-
+    // Envia senha diretamente ao servidor (protegida pelo HTTPS)
     const response = await $fetch('/api/auth/login', {
       method: 'POST',
       body: {
         email,
-        encryptedPassword: encrypted,
-        iv,
+        password,
       },
     }).catch((error: any) => {
       const statusCode = error?.statusCode || error?.status || error?.response?.status;
@@ -150,7 +140,6 @@ export class AuthService {
     });
 
     const authResponse = response as unknown as AuthResponse;
-
     return authResponse;
   }
 

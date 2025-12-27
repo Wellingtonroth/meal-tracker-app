@@ -124,14 +124,18 @@ async function submit() {
     isSubmitting.value = true;
     clearError();
     passwordErrors.value = [];
-    const passwordValue = password.value;
-    await register(email.value, passwordValue);
 
+    // Envia senha diretamente (protegida pelo HTTPS)
+    await register(email.value, password.value);
+
+    // Limpa senha da memória
     password.value = '';
 
     await router.push('/app/home');
   } catch (err) {
+    // Limpa senha em caso de erro
     password.value = '';
+
     const statusCode = (err as any)?.statusCode || (err as any)?.status;
     if (import.meta.dev && statusCode && statusCode !== 400) {
       const errorMessage = err instanceof Error ? err.message : 'Erro desconhecido';

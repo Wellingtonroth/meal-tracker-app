@@ -63,13 +63,16 @@ const submit = async () => {
   try {
     isSubmitting.value = true;
     clearError();
-    const passwordValue = password.value;
-    await login(email.value, passwordValue);
 
+    // Envia senha diretamente (protegida pelo HTTPS)
+    await login(email.value, password.value);
+
+    // Limpa senha da memória
     password.value = '';
 
     await router.push((route.query.redirect as string) || '/app/home');
   } catch (err) {
+    // Limpa senha em caso de erro
     password.value = '';
 
     const statusCode = (err as any)?.statusCode || (err as any)?.status;
