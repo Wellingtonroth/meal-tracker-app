@@ -3,8 +3,8 @@
     <h1>Landing Page</h1>
     <p>Bem-vindo ao Meal Tracker!</p>
     <div class="actions">
-      <NuxtLink to="/login" class="btn btn-primary">Entrar</NuxtLink>
-      <NuxtLink to="/register" class="btn btn-secondary">Criar Conta</NuxtLink>
+      <NuxtLink to="/login" class="btn btn-primary" target="_blank">Entrar</NuxtLink>
+      <NuxtLink to="/register" class="btn btn-secondary" target="_blank">Criar Conta</NuxtLink>
     </div>
   </div>
 </template>
