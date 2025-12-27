@@ -4,26 +4,44 @@ import type { AuthResponse } from '@/types/auth';
 export default defineEventHandler(async (event): Promise<AuthResponse> => {
   try {
     const body = await readBody(event);
-    const { email, encryptedPassword, iv } = body;
+    const { email, password } = body;
 
-    if (!email || !encryptedPassword || !iv) {
+    // Validação básica
+    if (!email || !password) {
       throw createError({
         statusCode: 400,
-        message: 'Email, senha criptografada e IV são obrigatórios',
+        message: 'Email e senha são obrigatórios',
+      });
+    }
+
+    // Validação de email
+    if (!isValidEmail(email)) {
+      throw createError({
+        statusCode: 400,
+        message: 'Email inválido',
+      });
+    }
+
+    // Validação de força da senha
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.isValid) {
+      throw createError({
+        statusCode: 400,
+        message: `Senha inválida: ${passwordValidation.errors.join(', ')}`,
       });
     }
 
     const config = useRuntimeConfig();
 
-    const decryptedPassword = await decryptPassword(encryptedPassword, iv, config);
-
+    // Criar conta no Firebase diretamente
+    // A senha vai protegida pelo HTTPS (TLS 1.3)
     const firebaseAuthResponse = await $fetch(
       `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${config.public.firebase.apiKey}`,
       {
         method: 'POST',
         body: {
           email,
-          password: decryptedPassword,
+          password,
           returnSecureToken: true,
         },
       },
@@ -50,6 +68,7 @@ export default defineEventHandler(async (event): Promise<AuthResponse> => {
     const isProduction = isProductionEnv();
     const maxAge = 60 * 60 * 24 * 7; // 7 dias
 
+    // Armazenar tokens em cookies httpOnly (seguro!)
     setCookie(event, 'firebase_id_token', idToken, {
       httpOnly: true,
       secure: isProduction,
@@ -63,7 +82,7 @@ export default defineEventHandler(async (event): Promise<AuthResponse> => {
         httpOnly: true,
         secure: isProduction,
         sameSite: 'lax',
-        maxAge: 60 * 60 * 24 * 30,
+        maxAge: 60 * 60 * 24 * 30, // 30 dias
         path: '/',
       });
     }
@@ -83,51 +102,73 @@ export default defineEventHandler(async (event): Promise<AuthResponse> => {
   }
 });
 
-async function decryptPassword(
-  encryptedBase64: string,
-  ivBase64: string,
-  config: any,
-): Promise<string> {
-  const encryptionKey = `${config.public.firebase.apiKey}_${config.public.firebase.projectId}_encryption_key`;
+/**
+ * Valida formato de email
+ * Implementa RFC 5322 simplificado
+ */
+function isValidEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@][^\s.@]*\.[^\s@]+$/;
 
-  const encrypted = Uint8Array.from(atob(encryptedBase64), (c) => c.charCodeAt(0));
-  const iv = Uint8Array.from(atob(ivBase64), (c) => c.charCodeAt(0));
+  if (!emailRegex.test(email)) return false;
+  if (email.length > 254) return false;
+  if (email.length < 3) return false;
 
-  const encoder = new TextEncoder();
-  const salt = encoder.encode(encryptionKey).slice(0, 16);
+  return true;
+}
 
-  const passwordKey = await crypto.subtle.importKey(
-    'raw',
-    encoder.encode(encryptionKey),
-    'PBKDF2',
-    false,
-    ['deriveBits', 'deriveKey'],
-  );
+/**
+ * Valida força da senha no servidor
+ * Mesmas regras do client-side para consistência
+ */
+function validatePassword(password: string): {
+  isValid: boolean;
+  errors: string[];
+} {
+  const errors: string[] = [];
 
-  const key = await crypto.subtle.deriveKey(
-    {
-      name: 'PBKDF2',
-      salt,
-      iterations: 100000,
-      hash: 'SHA-256',
-    },
-    passwordKey,
-    {
-      name: 'AES-GCM',
-      length: 256,
-    },
-    false,
-    ['decrypt'],
-  );
+  if (password.length < 8) {
+    errors.push('A senha deve ter pelo menos 8 caracteres');
+  }
 
-  const decrypted = await crypto.subtle.decrypt(
-    {
-      name: 'AES-GCM',
-      iv,
-    },
-    key,
-    encrypted,
-  );
+  if (!/[A-Z]/.test(password)) {
+    errors.push('A senha deve conter pelo menos uma letra maiúscula');
+  }
 
-  return new TextDecoder().decode(decrypted);
+  if (!/[a-z]/.test(password)) {
+    errors.push('A senha deve conter pelo menos uma letra minúscula');
+  }
+
+  if (!/\d/.test(password)) {
+    errors.push('A senha deve conter pelo menos um número');
+  }
+
+  if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)) {
+    errors.push('A senha deve conter pelo menos um caractere especial');
+  }
+
+  if (/\s/.test(password)) {
+    errors.push('A senha não pode conter espaços');
+  }
+
+  // Lista de senhas comuns (básica)
+  const commonPasswords = [
+    'password',
+    '12345678',
+    '123456789',
+    'qwerty',
+    'abc123',
+    'password123',
+    'admin123',
+    'senha123',
+  ];
+
+  const lowerPassword = password.toLowerCase();
+  if (commonPasswords.some((common) => lowerPassword.includes(common))) {
+    errors.push('A senha é muito comum');
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+  };
 }
