@@ -26,7 +26,6 @@ export const useAuthStore = defineStore('auth', {
       authStatePromise = new Promise<void>((resolve) => {
         let resolved = false;
 
-        // Timeout de segurança: se o listener não responder em 5 segundos, considerar como não autenticado
         const timeoutId = setTimeout(() => {
           if (!resolved) {
             if (import.meta.dev) {
