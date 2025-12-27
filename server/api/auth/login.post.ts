@@ -4,26 +4,35 @@ import type { AuthResponse } from '@/types/auth';
 export default defineEventHandler(async (event): Promise<AuthResponse> => {
   try {
     const body = await readBody(event);
-    const { email, encryptedPassword, iv } = body;
+    const { email, password } = body;
 
-    if (!email || !encryptedPassword || !iv) {
+    // Validação básica
+    if (!email || !password) {
       throw createError({
         statusCode: 400,
-        message: 'Email, senha criptografada e IV são obrigatórios',
+        message: 'Email e senha são obrigatórios',
+      });
+    }
+
+    // Validação de email
+    if (!isValidEmail(email)) {
+      throw createError({
+        statusCode: 400,
+        message: 'Email inválido',
       });
     }
 
     const config = useRuntimeConfig();
 
-    const decryptedPassword = await decryptPassword(encryptedPassword, iv, config);
-
+    // Autenticar com Firebase diretamente
+    // A senha vai protegida pelo HTTPS (TLS 1.3)
     const firebaseAuthResponse = await $fetch(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${config.public.firebase.apiKey}`,
       {
         method: 'POST',
         body: {
           email,
-          password: decryptedPassword,
+          password,
           returnSecureToken: true,
         },
       },
@@ -48,8 +57,9 @@ export default defineEventHandler(async (event): Promise<AuthResponse> => {
     };
 
     const isProduction = isProductionEnv();
-    const maxAge = 60 * 60 * 24 * 7;
+    const maxAge = 60 * 60 * 24 * 7; // 7 dias
 
+    // Armazenar tokens em cookies httpOnly (seguro!)
     setCookie(event, 'firebase_id_token', idToken, {
       httpOnly: true,
       secure: isProduction,
@@ -63,7 +73,7 @@ export default defineEventHandler(async (event): Promise<AuthResponse> => {
         httpOnly: true,
         secure: isProduction,
         sameSite: 'lax',
-        maxAge: 60 * 60 * 24 * 30,
+        maxAge: 60 * 60 * 24 * 30, // 30 dias
         path: '/',
       });
     }
@@ -83,51 +93,18 @@ export default defineEventHandler(async (event): Promise<AuthResponse> => {
   }
 });
 
-async function decryptPassword(
-  encryptedBase64: string,
-  ivBase64: string,
-  config: any,
-): Promise<string> {
-  const encryptionKey = `${config.public.firebase.apiKey}_${config.public.firebase.projectId}_encryption_key`;
+/**
+ * Valida formato de email
+ * Implementa RFC 5322 simplificado
+ */
+function isValidEmail(email: string): boolean {
+  // Regex simples mas efetivo para emails
+  const emailRegex = /^[^\s@]+@[^\s@][^\s.@]*\.[^\s@]+$/;
 
-  const encrypted = Uint8Array.from(atob(encryptedBase64), (c) => c.charCodeAt(0));
-  const iv = Uint8Array.from(atob(ivBase64), (c) => c.charCodeAt(0));
+  // Validações adicionais
+  if (!emailRegex.test(email)) return false;
+  if (email.length > 254) return false; // RFC 5321
+  if (email.length < 3) return false;
 
-  const encoder = new TextEncoder();
-  const salt = encoder.encode(encryptionKey).slice(0, 16);
-
-  const passwordKey = await crypto.subtle.importKey(
-    'raw',
-    encoder.encode(encryptionKey),
-    'PBKDF2',
-    false,
-    ['deriveBits', 'deriveKey'],
-  );
-
-  const key = await crypto.subtle.deriveKey(
-    {
-      name: 'PBKDF2',
-      salt,
-      iterations: 100000,
-      hash: 'SHA-256',
-    },
-    passwordKey,
-    {
-      name: 'AES-GCM',
-      length: 256,
-    },
-    false,
-    ['decrypt'],
-  );
-
-  const decrypted = await crypto.subtle.decrypt(
-    {
-      name: 'AES-GCM',
-      iv,
-    },
-    key,
-    encrypted,
-  );
-
-  return new TextDecoder().decode(decrypted);
+  return true;
 }
